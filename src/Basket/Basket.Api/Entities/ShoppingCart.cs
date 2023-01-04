@@ -15,8 +15,7 @@ public class ShoppingCart
     /// <summary>
     /// Gets or sets the username.
     /// </summary>
-    /// <value>
-    /// The username.
+                                   /// The username.
     /// </value>
     public string Username { get; set; } = default!;
 
