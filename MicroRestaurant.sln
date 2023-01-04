@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A1F1378B-B21
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{8B1A5592-8EDE-4CF9-8DD6-E377FFBA1D25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\Catalog\Catalog.Api\Catalog.Api.csproj", "{15F16FB3-94E1-4329-9464-3D2E70248CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.Api", "src\Catalog\Catalog.Api\Catalog.Api.csproj", "{15F16FB3-94E1-4329-9464-3D2E70248CBF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1D3A618B-5DD7-4B92-9BA4-B0BAC635F205}"
 EndProject
@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{18479CFD-955E-446F-9060-3CB653DBCA41}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{4F8E4D2E-73B9-433C-864E-5D19AF0FB7E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Api", "src\Basket\Basket.Api\Basket.Api.csproj", "{E3946B60-1E8D-4E61-8B7D-B6E06E615EB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +36,10 @@ Global
 		{18479CFD-955E-446F-9060-3CB653DBCA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18479CFD-955E-446F-9060-3CB653DBCA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18479CFD-955E-446F-9060-3CB653DBCA41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3946B60-1E8D-4E61-8B7D-B6E06E615EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3946B60-1E8D-4E61-8B7D-B6E06E615EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3946B60-1E8D-4E61-8B7D-B6E06E615EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3946B60-1E8D-4E61-8B7D-B6E06E615EB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +47,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8B1A5592-8EDE-4CF9-8DD6-E377FFBA1D25} = {A1F1378B-B213-4650-B815-1A8AA50B436F}
 		{15F16FB3-94E1-4329-9464-3D2E70248CBF} = {8B1A5592-8EDE-4CF9-8DD6-E377FFBA1D25}
+		{4F8E4D2E-73B9-433C-864E-5D19AF0FB7E0} = {A1F1378B-B213-4650-B815-1A8AA50B436F}
+		{E3946B60-1E8D-4E61-8B7D-B6E06E615EB5} = {4F8E4D2E-73B9-433C-864E-5D19AF0FB7E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {836FF403-901B-413B-A062-3A68B9499A69}
