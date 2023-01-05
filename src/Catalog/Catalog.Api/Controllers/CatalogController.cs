@@ -10,12 +10,10 @@ namespace Catalog.Api.Controllers;
 public class CatalogController : ControllerBase
 {
     private readonly IProductRepository productRepository;
-    private readonly ILogger<CatalogController> logger;
 
-    public CatalogController(IProductRepository productRepository, ILogger<CatalogController> logger)
+    public CatalogController(IProductRepository productRepository)
     {
         this.productRepository = productRepository;
-        this.logger = logger;
     }
 
     [HttpGet]
@@ -61,7 +59,7 @@ public class CatalogController : ControllerBase
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
         await this.productRepository.CreateProduct(product);
-        return CreatedAtRoute(nameof(GetProduct), new { id = product.Id }, product);
+        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
     }
 
     [HttpPut]

@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+   
+  pgadmin:
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin12345
+
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -10,6 +16,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__Redis=basket.db:6379
-    #ports:
-    #  - "80"
+
+  discount.db:
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin12345
+      - POSTGRES_DB=DiscountDb
+  discount.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgreSQL=Server=discount.db;Port=5432;Database=DiscountDb;User Id=admin;Password=admin12345;
 
