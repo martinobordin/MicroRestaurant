@@ -3,9 +3,29 @@ version: '3.4'
 name: MicroRestaurant
 
 services:
-  
+  portainer:
+    container_name: portainer
+    restart: always
+    image: portainer/portainer-ce
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  #mongoclient:
+  #    container_name: mongoclient
+  #    image: mongoclient/mongoclient:latest
+  #    hostname: mongoclient
+  #    depends_on:
+  #      - catalog.db
+  #    ports:
+  #      - 3300:3000
+
   catalog.db:
     container_name: catalog.db
+    restart: always
     image: mongo
     ports:
       - "27017:27017"
@@ -23,15 +43,24 @@ services:
       context: .
       dockerfile: src/Catalog/Catalog.Api/Dockerfile
 
-  #mongoclient:
-  #    image: mongoclient/mongoclient:latest
-  #    container_name: mongoclient
-  #    hostname: mongoclient
-  #    depends_on:
-  #      - catalog.db
-  #    ports:
-  #      - 3300:3000
+  basket.db:
+    container_name: basket.db
+    restart: always
+    image: redis:alpine
+    ports:
+      - 6379:6379
+
+  basket.api:
+    container_name: basket.api
+    image: ${DOCKER_REGISTRY-}basketapi
+    ports:
+      - "8001:80"
+    depends_on:
+      - basket.db
+    build:
+      context: .
+      dockerfile: src/Basket/Basket.Api/Dockerfile
 
 volumes:
-
+  portainer_data:
   mongo_data:

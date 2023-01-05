@@ -5,3 +5,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__MongoDb=mongodb://catalog.db:27017
+
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Redis=basket.db:6379
+    #ports:
+    #  - "80"
+
