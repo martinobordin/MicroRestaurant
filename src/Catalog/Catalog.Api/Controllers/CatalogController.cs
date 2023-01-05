@@ -57,7 +57,7 @@ public class CatalogController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Product), (int)HttpStatusCode.Created)]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
     {
         await this.productRepository.CreateProduct(product);
@@ -71,7 +71,6 @@ public class CatalogController : ControllerBase
         await this.productRepository.UpdateProduct(product);
         return Ok(product);
     }
-
 
     [HttpDelete]
     [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]

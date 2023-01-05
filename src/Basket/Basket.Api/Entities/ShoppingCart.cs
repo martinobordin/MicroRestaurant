@@ -12,10 +12,12 @@ public class ShoppingCart
         Username = username;
     }
 
+
     /// <summary>
     /// Gets or sets the username.
     /// </summary>
-                                   /// The username.
+    /// <value>
+    /// The username.
     /// </value>
     public string Username { get; set; } = default!;
 
