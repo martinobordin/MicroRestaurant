@@ -16,6 +16,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__Redis=basket.db:6379
+      - DiscountSettings__GrpcUrl=http://discount.grpc
 
   discount.db:
     environment:
@@ -26,4 +27,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgreSQL=Server=discount.db;Port=5432;Database=DiscountDb;User Id=admin;Password=admin12345;
-
+  discount.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgreSQL=Server=discount.db;Port=5432;Database=DiscountDb;User Id=admin;Password=admin12345;

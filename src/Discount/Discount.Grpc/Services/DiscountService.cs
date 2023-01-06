@@ -24,7 +24,15 @@ public class DiscountService : DiscountProtoService.DiscountProtoServiceBase
         var coupon = await discountRepository.GetDiscountAsync(request.ProductName);
         if (coupon == null)
         {
-            throw new RpcException(new Status(StatusCode.NotFound, $"Discount with ProductName={request.ProductName} is not found."));
+            coupon = new Coupon() 
+            { 
+                Id = 0,
+                ProductName= request.ProductName,
+                Amount = 0,
+                Description = "NoDiscount"
+            };
+
+            //throw new RpcException(new Status(StatusCode.NotFound, $"Discount for product {request.ProductName} not found."));
         }
         logger.LogInformation("Discount is retrieved for ProductName : {productName}, Amount : {amount}", coupon.ProductName, coupon.Amount);
 

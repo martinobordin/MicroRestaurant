@@ -88,6 +88,16 @@ services:
     build:
       context: .
       dockerfile: src/Discount/Discount.Api/Dockerfile
+  discount.grpc:
+    container_name: discount.grpc
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    ports:
+      - "8003:80"
+    depends_on:
+      - discount.db
+    build:
+      context: .
+      dockerfile: src/Discount/Discount.Grpc/Dockerfile
 
 volumes:
 
