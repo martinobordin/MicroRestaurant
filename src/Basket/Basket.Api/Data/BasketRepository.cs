@@ -13,9 +13,9 @@ namespace Basket.Api.Data
             this.distributedCache = distributedCache;
         }
 
-        public async Task<ShoppingCart?> GetBasketAsync(string username)
+        public async Task<ShoppingCart?> GetBasketAsync(string username, CancellationToken token = default)
         {
-            var basket = await this.distributedCache.GetStringAsync(username);
+            var basket = await this.distributedCache.GetStringAsync(username, token);
             if (string.IsNullOrWhiteSpace(basket))
             {
                 return null;
@@ -24,15 +24,15 @@ namespace Basket.Api.Data
             return JsonSerializer.Deserialize<ShoppingCart>(basket);
         }
 
-        public async Task<ShoppingCart> UpdateBasketAsync(ShoppingCart basket)
+        public async Task<ShoppingCart> UpdateBasketAsync(ShoppingCart basket, CancellationToken token = default)
         {
-            await this.distributedCache.SetStringAsync(basket.Username, JsonSerializer.Serialize(basket));
+            await this.distributedCache.SetStringAsync(basket.Username, JsonSerializer.Serialize(basket), token);
             return basket;
         }
 
-        public async Task DeleteBasketAsync(string username)
+        public async Task DeleteBasketAsync(string username, CancellationToken token = default)
         {
-            await this.distributedCache.RemoveAsync(username);
+            await this.distributedCache.RemoveAsync(username, token);
         }
     }
 }

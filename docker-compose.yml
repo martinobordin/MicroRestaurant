@@ -74,6 +74,7 @@ services:
       - "8001:80"
     depends_on:
       - basket.db
+      - rabbitmq
     build:
       context: .
       dockerfile: src/Basket/Basket.Api/Dockerfile
@@ -120,6 +121,7 @@ services:
       - "8004:80"
     depends_on:
       - order.db
+      - rabbitmq
     build:
       context: .
       dockerfile: src/Order/Order.Api/Dockerfile

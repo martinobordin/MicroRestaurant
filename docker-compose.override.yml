@@ -21,6 +21,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__Redis=basket.db:6379
+      - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
       - DiscountSettings__GrpcUrl=http://discount.grpc
 
   discount.db:
@@ -46,3 +47,4 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__SqlServer=Server=order.db;Database=OrderDb;User Id=sa;Password=admin12345;TrustServerCertificate=true;
+      - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672

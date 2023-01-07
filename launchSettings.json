@@ -3,6 +3,9 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "basket.api",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
         "basket.api": "StartDebugging",
         "basket.db": "StartWithoutDebugging",
@@ -10,7 +13,12 @@
         "catalog.db": "StartWithoutDebugging",
         "discount.db": "StartWithoutDebugging",
         "pgadmin": "StartWithoutDebugging",
-        "portainer": "StartWithoutDebugging"
+        "portainer": "StartWithoutDebugging",
+        "discount.api": "StartDebugging",
+        "discount.grpc": "StartDebugging",
+        "order.api": "StartDebugging",
+        "order.db": "StartWithoutDebugging",
+        "rabbitmq": "StartWithoutDebugging"
       }
     }
   }
