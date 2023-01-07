@@ -4,6 +4,14 @@ name: MicroRestaurant
 
 services:
 
+  rabbitmq:
+    container_name: rabbitmq  
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
   portainer:
     container_name: portainer
     restart: always
