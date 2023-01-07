@@ -31,3 +31,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgreSQL=Server=discount.db;Port=5432;Database=DiscountDb;User Id=admin;Password=admin12345;
+
+  order.db:
+    environment:
+        SA_PASSWORD: "admin12345"
+        ACCEPT_EULA: "Y"
+
+  order.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__SqlServer=Server=order.db;Database=OrderDb;User Id=sa;Password=admin12345;TrustServerCertificate=true;

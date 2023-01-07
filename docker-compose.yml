@@ -99,6 +99,23 @@ services:
       context: .
       dockerfile: src/Discount/Discount.Grpc/Dockerfile
 
+  order.db:
+    container_name: order.db
+    restart: always
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+        - "1433:1433"
+  order.api:
+    container_name: order.api
+    image: ${DOCKER_REGISTRY-}orderapi
+    ports:
+      - "8004:80"
+    depends_on:
+      - order.db
+    build:
+      context: .
+      dockerfile: src/Order/Order.Api/Dockerfile
+
 volumes:
 
   portainer_data:

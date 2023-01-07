@@ -6,8 +6,6 @@ public static class HostExtensions
 {
     public static IHost InitializeDatabase(this IHost host)
     {
-        int retryForAvailability = 0;
-
         using (var scope = host.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
@@ -16,7 +14,7 @@ public static class HostExtensions
 
             try
             {
-                logger.LogInformation("Migrating PostgreSQL database.");
+                logger.LogInformation("Initializing PostgreSQL database.");
 
                 using var connection = new NpgsqlConnection(configuration.GetConnectionString("PostgreSQL"));
                 connection.Open();
@@ -51,18 +49,11 @@ public static class HostExtensions
                 command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Clam Zuppa', 'Clam Zuppa Special Discount', 10);";
                 command.ExecuteNonQuery();
 
-                logger.LogInformation("Migrated PostgreSQL database.");
+                logger.LogInformation("Initialized PostgreSQL database.");
             }
             catch (NpgsqlException ex)
             {
-                logger.LogError(ex, "An error occurred while migrating the PostgreSQL database");
-
-                if (retryForAvailability < 10)
-                {
-                    retryForAvailability++;
-                    Thread.Sleep(2000);
-                    InitializeDatabase(host);
-                }
+                logger.LogError(ex, "An error occurred while initializing the PostgreSQL database");
             }
         }
 
