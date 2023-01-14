@@ -53,4 +53,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
 
-
+  microrestaurant.aggregator:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiSettings__CatalogUrl=http://catalog.api"
+      - "ApiSettings__BasketUrl=http://basket.api"
+      - "ApiSettings__OrderUrl=http://order.api"

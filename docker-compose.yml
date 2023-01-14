@@ -33,14 +33,14 @@ services:
       - pgadmin_data:/root/.pgadmin
 
 
-  #mongoclient:
-  #    container_name: mongoclient
-  #    image: mongoclient/mongoclient:latest
-  #    hostname: mongoclient
-  #    depends_on:
-  #      - catalog.db
-  #    ports:
-  #      - 3300:3000
+  mongoclient:
+      container_name: mongoclient
+      image: mongoclient/mongoclient:latest
+      hostname: mongoclient
+      depends_on:
+        - catalog.db
+      ports:
+        - 3300:3000
 
   catalog.db:
     container_name: catalog.db
@@ -140,10 +140,24 @@ services:
         - discount.api
         - order.api
 
+  microrestaurant.aggregator:
+    container_name: microrestaurant.aggregator
+    image: ${DOCKER_REGISTRY-}microrestaurantaggregator
+    build:
+      context: .
+      dockerfile: src/ApiGateways/MicroRestaurant.Aggregator/Dockerfile
+    ports:
+      - "8005:80"
+    depends_on:
+      - catalog.api
+      - basket.api
+      - order.api
+
 volumes:
 
   portainer_data:
   pgadmin_data:
   mongo_data:
   postgres_data:
+
 
