@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Basket.Api.Controllers;
 
-[Route("api/v1/[controller]/[action]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class BasketController : ControllerBase
 {
@@ -53,7 +53,7 @@ public class BasketController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPost("Checkout")]
     [ProducesResponseType((int)HttpStatusCode.Accepted)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout , CancellationToken token = default)

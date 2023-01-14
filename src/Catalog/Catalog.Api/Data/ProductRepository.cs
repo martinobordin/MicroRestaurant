@@ -17,11 +17,6 @@ public class ProductRepository : IProductRepository
         return await this.catalogContext.Products.Find(p => true).ToListAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
-    {
-        return await this.catalogContext.Products.Find(p => p.Name.Contains(name)).ToListAsync();
-    }
-
     public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(string category)
     {
         return await this.catalogContext.Products.Find(p => p.Category == category).ToListAsync();

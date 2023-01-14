@@ -5,7 +5,7 @@ using System.Net;
 
 namespace Catalog.Api.Controllers;
 
-[Route("api/v1/[controller]/[action]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class CatalogController : ControllerBase
 {
@@ -24,15 +24,7 @@ public class CatalogController : ControllerBase
         return Ok(products);
     }
 
-    [HttpGet("{name}")]
-    [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
-    {
-        var products = await this.productRepository.GetProductsByNameAsync(name);
-        return Ok(products);
-    }
-
-    [HttpGet("{category}")]
+    [HttpGet("[action]/{category}")]
     [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory(string category)
     {
@@ -70,7 +62,7 @@ public class CatalogController : ControllerBase
         return Ok(product);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<Product>> DeleteProduct(string id)
     {

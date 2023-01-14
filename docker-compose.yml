@@ -126,9 +126,24 @@ services:
       context: .
       dockerfile: src/Order/Order.Api/Dockerfile
 
+  ocelot.apigateway:
+    container_name: ocelot.apigateway
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: src/ApiGateways/Ocelot.ApiGateway/Dockerfile
+    ports:
+      - "8010:80"
+    depends_on:
+        - catalog.api
+        - basket.api
+        - discount.api
+        - order.api
+
 volumes:
 
   portainer_data:
   pgadmin_data:
   mongo_data:
   postgres_data:
+

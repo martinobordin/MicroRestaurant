@@ -5,7 +5,6 @@ namespace Catalog.Api.Data;
 public interface IProductRepository
 {
     Task<IEnumerable<Product>> GetAllProductsAsync();
-    Task<IEnumerable<Product>> GetProductsByNameAsync(string name);
     Task<IEnumerable<Product>> GetProductsByCategoryAsync(string category);
 
     Task<Product> GetProductAsync(string id);
