@@ -6,14 +6,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/Order/Order.Api/Order.Api.csproj", "src/Order/Order.Api/"]
-COPY ["src/Basket/Basket.IntegrationEvents/Basket.IntegrationEvents.csproj", "src/Basket/Basket.IntegrationEvents/"]
-COPY ["src/Order/Order.Application/Order.Application.csproj", "src/Order/Order.Application/"]
-COPY ["src/Order/Order.Domain/Order.Domain.csproj", "src/Order/Order.Domain/"]
-COPY ["src/Order/Order.Infrastructure/Order.Infrastructure.csproj", "src/Order/Order.Infrastructure/"]
-RUN dotnet restore "src/Order/Order.Api/Order.Api.csproj"
+COPY ["src/Services/Order/Order.Api/Order.Api.csproj", "src/Services/Order/Order.Api/"]
+COPY ["src/Services/Basket/Basket.IntegrationEvents/Basket.IntegrationEvents.csproj", "src/Services/Basket/Basket.IntegrationEvents/"]
+COPY ["src/Services/Order/Order.Application/Order.Application.csproj", "src/Services/Order/Order.Application/"]
+COPY ["src/Services/Order/Order.Domain/Order.Domain.csproj", "src/Services/Order/Order.Domain/"]
+COPY ["src/Services/Order/Order.Infrastructure/Order.Infrastructure.csproj", "src/Services/Order/Order.Infrastructure/"]
+RUN dotnet restore "src/Services/Order/Order.Api/Order.Api.csproj"
 COPY . .
-WORKDIR "/src/src/Order/Order.Api"
+WORKDIR "/src/src/Services/Order/Order.Api"
 RUN dotnet build "Order.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

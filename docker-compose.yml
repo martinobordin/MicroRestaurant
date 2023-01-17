@@ -4,6 +4,23 @@ name: MicroRestaurant
 
 services:
 
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    ports:
+        - "9200:9200"
+    volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.9.2
+    depends_on:
+        - elasticsearch
+    ports:
+        - "5601:5601" 
+
+
   rabbitmq:
     container_name: rabbitmq  
     image: rabbitmq:3-management-alpine
@@ -59,7 +76,7 @@ services:
         - catalog.db
     build:
       context: .
-      dockerfile: src/Catalog/Catalog.Api/Dockerfile
+      dockerfile: src/Services/Catalog/Catalog.Api/Dockerfile
 
   basket.db:
     container_name: basket.db
@@ -77,7 +94,7 @@ services:
       - rabbitmq
     build:
       context: .
-      dockerfile: src/Basket/Basket.Api/Dockerfile
+      dockerfile: src/Services/Basket/Basket.Api/Dockerfile
 
   discount.db:
     container_name: discount.db
@@ -96,7 +113,7 @@ services:
       - discount.db
     build:
       context: .
-      dockerfile: src/Discount/Discount.Api/Dockerfile
+      dockerfile: src/Services/Discount/Discount.Api/Dockerfile
   discount.grpc:
     container_name: discount.grpc
     image: ${DOCKER_REGISTRY-}discountgrpc
@@ -106,7 +123,7 @@ services:
       - discount.db
     build:
       context: .
-      dockerfile: src/Discount/Discount.Grpc/Dockerfile
+      dockerfile: src/Services/Discount/Discount.Grpc/Dockerfile
 
   order.db:
     container_name: order.db
@@ -124,7 +141,7 @@ services:
       - rabbitmq
     build:
       context: .
-      dockerfile: src/Order/Order.Api/Dockerfile
+      dockerfile: src/Services/Order/Order.Api/Dockerfile
 
   ocelot.apigateway:
     container_name: ocelot.apigateway
@@ -155,6 +172,7 @@ services:
 
 volumes:
 
+  elasticsearch-data:
   portainer_data:
   pgadmin_data:
   mongo_data:

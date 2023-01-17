@@ -2,6 +2,17 @@ version: '3.4'
 
 services:
 
+  elasticsearch:
+    environment:
+        - xpack.monitoring.enabled=true
+        - xpack.watcher.enabled=false
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - discovery.type=single-node
+
+  kibana:
+    environment:
+        - ELASTICSEARCH_URL=http://elasticsearch:9200
+
   rabbitmq:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
