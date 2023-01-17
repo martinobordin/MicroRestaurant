@@ -1,16 +1,25 @@
+using Common.Logging;
 using MicroRestaurant.Aggregator.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog(SerilogConfigurator.ConfigureSerilog);
+
 // Add services to the container.
+builder.Services.AddTransient<LoggingDelegatingHandler>();
+
 builder.Services.AddHttpClient<ICatalogService, CatalogService>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:CatalogUrl"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:CatalogUrl"]!))
+    .AddHttpMessageHandler<LoggingDelegatingHandler>();
 
 builder.Services.AddHttpClient<IBasketService, BasketService>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:BasketUrl"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:BasketUrl"]!))
+    .AddHttpMessageHandler<LoggingDelegatingHandler>();
 
 builder.Services.AddHttpClient<IOrderService, OrderService>(c =>
-    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:OrderUrl"]!));
+    c.BaseAddress = new Uri(builder.Configuration["ApiSettings:OrderUrl"]!))
+    .AddHttpMessageHandler<LoggingDelegatingHandler>();
 
 
 builder.Services.AddControllers();

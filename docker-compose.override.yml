@@ -70,3 +70,4 @@ services:
       - "ApiSettings__CatalogUrl=http://catalog.api"
       - "ApiSettings__BasketUrl=http://basket.api"
       - "ApiSettings__OrderUrl=http://order.api"
+      - "ElasticConfiguration__Uri=http://elasticsearch:9200"

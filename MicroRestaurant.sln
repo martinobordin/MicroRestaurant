@@ -50,6 +50,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroRestaurant.Aggregator"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.Api", "src\Services\Basket\Basket.Api\Basket.Api.csproj", "{1F42CCF3-CDFE-4A42-B422-EC03CAB48424}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging", "src\BuildingBlocks\Common.Logging\Common.Logging.csproj", "{F2EAA6EC-988B-4D9C-8419-726470362CDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{1F42CCF3-CDFE-4A42-B422-EC03CAB48424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F42CCF3-CDFE-4A42-B422-EC03CAB48424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F42CCF3-CDFE-4A42-B422-EC03CAB48424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2EAA6EC-988B-4D9C-8419-726470362CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2EAA6EC-988B-4D9C-8419-726470362CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2EAA6EC-988B-4D9C-8419-726470362CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2EAA6EC-988B-4D9C-8419-726470362CDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{565DFC28-71DB-45EE-9116-67BCE54F7CAF} = {A69FA394-3EFD-4670-9860-77741DD76E24}
 		{857F5F2D-BE87-47FE-AE81-0E3457500B48} = {A69FA394-3EFD-4670-9860-77741DD76E24}
 		{1F42CCF3-CDFE-4A42-B422-EC03CAB48424} = {4F8E4D2E-73B9-433C-864E-5D19AF0FB7E0}
+		{F2EAA6EC-988B-4D9C-8419-726470362CDF} = {448F281F-B3B2-4B2D-AFE0-2D8F95758253}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {836FF403-901B-413B-A062-3A68B9499A69}
