@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["src/ApiGateways/MicroRestaurant.Aggregator/MicroRestaurant.Aggregator.csproj", "src/ApiGateways/MicroRestaurant.Aggregator/"]
+COPY ["src/BuildingBlocks/Common.Logging/Common.Logging.csproj", "src/BuildingBlocks/Common.Logging/"]
 RUN dotnet restore "src/ApiGateways/MicroRestaurant.Aggregator/MicroRestaurant.Aggregator.csproj"
 COPY . .
 WORKDIR "/src/src/ApiGateways/MicroRestaurant.Aggregator"
