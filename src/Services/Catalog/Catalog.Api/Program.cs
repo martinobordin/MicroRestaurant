@@ -1,7 +1,11 @@
 using Catalog.Api.Data;
+using Common.Logging;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog(SerilogConfigurator.ConfigureSerilog);
 
 // Add services to the container.
 builder.Services.AddScoped<ICatalogContext, CatalogContext>();

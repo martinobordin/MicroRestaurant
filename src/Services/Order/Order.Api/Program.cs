@@ -1,12 +1,16 @@
+using Common.Logging;
 using MassTransit;
 using Order.Api.Extensions;
 using Order.Application;
 using Order.Application.Features.Orders.EventsConsumers;
 using Order.Infrastructure;
 using Order.Infrastructure.Persistence;
+using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog(SerilogConfigurator.ConfigureSerilog);
 
 // Add services to the container.
 builder.Services

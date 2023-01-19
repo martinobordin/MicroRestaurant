@@ -27,6 +27,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__MongoDb=mongodb://catalog.db:27017
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
 
   basket.api:
     environment:
@@ -34,6 +35,7 @@ services:
       - ConnectionStrings__Redis=basket.db:6379
       - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
       - DiscountSettings__GrpcUrl=http://discount.grpc
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
 
   discount.db:
     environment:
@@ -44,10 +46,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgreSQL=Server=discount.db;Port=5432;Database=DiscountDb;User Id=admin;Password=admin12345;
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
   discount.grpc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgreSQL=Server=discount.db;Port=5432;Database=DiscountDb;User Id=admin;Password=admin12345;
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
 
   order.db:
     environment:
@@ -59,15 +63,17 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__SqlServer=Server=order.db;Database=OrderDb;User Id=sa;Password=admin12345;TrustServerCertificate=true;
       - ConnectionStrings__RabbitMq=amqp://guest:guest@rabbitmq:5672
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
 
   ocelot.apigateway:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
 
   microrestaurant.aggregator:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ApiSettings__CatalogUrl=http://catalog.api"
-      - "ApiSettings__BasketUrl=http://basket.api"
-      - "ApiSettings__OrderUrl=http://order.api"
-      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
+      - ApiSettings__CatalogUrl=http://catalog.api
+      - ApiSettings__BasketUrl=http://basket.api
+      - ApiSettings__OrderUrl=http://order.api
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
