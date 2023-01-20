@@ -3,6 +3,7 @@ using OpenTelemetry;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using OpenTelemetry.Metrics;
 
 namespace Common.Logging.Extensions
 {
@@ -16,9 +17,12 @@ namespace Common.Logging.Extensions
             serviceCollection.AddOpenTelemetryTracing((traceProviderBuilder) =>
             {
                 traceProviderBuilder
-                    .AddAspNetCoreInstrumentation()
-                    .SetResourceBuilder((ResourceBuilder?)ResourceBuilder.CreateDefault().AddService(telemetryOptions.ServiceName))
+                     .SetResourceBuilder((ResourceBuilder?)ResourceBuilder.CreateDefault().AddService(telemetryOptions.ServiceName))
                     .AddHttpClientInstrumentation()
+                    .AddAspNetCoreInstrumentation()
+                    .AddSqlClientInstrumentation()
+             
+                    
                     //.AddSource(nameof(BasketController))
                     .AddJaegerExporter(options =>
                     {

@@ -35,11 +35,11 @@ public class BasketController : ControllerBase
     [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<ShoppingCart>> UpdateBasket(ShoppingCart shoppingCart, CancellationToken token = default)
     {
-        //foreach (var shoppingCartItem in shoppingCart.Items)
-        //{
-        //    var productDiscount = await this.discountGrpcService.GetDiscountAsync(shoppingCartItem.ProductName, token);
-        //    shoppingCartItem.Price -= productDiscount.Amount;
-        //}
+        foreach (var shoppingCartItem in shoppingCart.Items)
+        {
+            var productDiscount = await this.discountGrpcService.GetDiscountAsync(shoppingCartItem.ProductName, token);
+            shoppingCartItem.Price -= productDiscount.Amount;
+        }
 
         var basket = await this.basketRepository.UpdateBasketAsync(shoppingCart, token);
         return Ok(basket);
