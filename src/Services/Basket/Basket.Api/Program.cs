@@ -1,6 +1,7 @@
 using Basket.Api.Data;
 using Basket.Api.Services;
 using Common.Logging;
+using Common.Logging.Extensions;
 using Discount.Grpc.Protos;
 using MassTransit;
 using Serilog;
@@ -8,10 +9,15 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.Configure(options =>
+      {
+          options.ActivityTrackingOptions = ActivityTrackingOptions.TraceId | ActivityTrackingOptions.SpanId;
+      });
+
 builder.Host.UseSerilog(SerilogConfigurator.ConfigureSerilog);
 
 // Add services to the container.
-builder.Services.AddScoped<IBasketRepository,BasketRepository>();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<IDiscountGrpcService, DiscountGrpcService>();
 
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -24,8 +30,10 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     options.Address = new Uri(builder.Configuration["DiscountSettings:GrpcUrl"]!);
 });
 
-builder.Services.AddMassTransit(config => {
-    config.UsingRabbitMq((ctx, cfg) => {
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
         var host = builder.Configuration.GetConnectionString("RabbitMq");
         cfg.Host(host);
     });
@@ -40,6 +48,12 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+builder.Services.AddTelemetry(opt =>
+{
+    opt.ServiceName = "Basket.Api";
+    opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
+    opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
+});
 
 var app = builder.Build();
 

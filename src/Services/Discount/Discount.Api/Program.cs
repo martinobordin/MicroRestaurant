@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Extensions;
 using Discount.Api.Data;
 using Discount.Api.Extensions;
 using Serilog;
@@ -18,6 +19,13 @@ builder.Services.AddSwaggerGen(options =>
 {
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+builder.Services.AddTelemetry(opt =>
+{
+    opt.ServiceName = "Discount.Api";
+    opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
+    opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
 
 var app = builder.Build();

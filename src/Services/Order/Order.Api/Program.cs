@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Extensions;
 using MassTransit;
 using Order.Api.Extensions;
 using Order.Application;
@@ -41,6 +42,13 @@ builder.Services.AddSwaggerGen(options =>
 {
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+builder.Services.AddTelemetry(opt =>
+{
+    opt.ServiceName = "Order.Api";
+    opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
+    opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
 
 var app = builder.Build();

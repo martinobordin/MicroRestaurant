@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Extensions;
 using Discount.Grpc.Data;
 using Discount.Grpc.Extensions;
 using Discount.Grpc.Services;
@@ -16,6 +17,13 @@ builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddGrpc();
+
+builder.Services.AddTelemetry(opt =>
+{
+    opt.ServiceName = "Discount.Grpc";
+    opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
+    opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
+});
 
 var app = builder.Build();
 

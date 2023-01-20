@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Extensions;
 using MicroRestaurant.Aggregator.Services;
 using Serilog;
 
@@ -26,6 +27,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTelemetry(opt =>
+{
+    opt.ServiceName = "Aggregator";
+    opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
+    opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
+});
 
 var app = builder.Build();
 

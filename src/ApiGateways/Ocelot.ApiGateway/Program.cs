@@ -1,4 +1,5 @@
 using Common.Logging;
+using Common.Logging.Extensions;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -13,10 +14,17 @@ builder.Services.AddOcelot().AddCacheManager(settings => settings.WithDictionary
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Configuration.AddJsonFile($"ocelot.{builder.Environment.EnvironmentName}.json", true);
 
-builder.Logging
-    .AddConfiguration(builder.Configuration.GetSection("Logging"))
-    .AddConsole()
-    .AddDebug();
+//builder.Logging
+//    .AddConfiguration(builder.Configuration.GetSection("Logging"))
+//    .AddConsole()
+//    .AddDebug();
+
+builder.Services.AddTelemetry(opt =>
+{
+    opt.ServiceName = "ApiGateway";
+    opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
+    opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
+});
 
 var app = builder.Build();
 
