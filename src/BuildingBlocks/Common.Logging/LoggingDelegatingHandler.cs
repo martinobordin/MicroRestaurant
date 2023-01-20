@@ -41,12 +41,14 @@ namespace Common.Logging
                     : $"{request.RequestUri?.DnsSafeHost}:{request.RequestUri?.Port}";
 
                 logger.LogCritical(ex, "Unable to connect to {Host}. Please check the configuration to ensure the correct URL for the service  has been configured.", hostWithPort);
+
+                throw;
             }
 
-            return new HttpResponseMessage(HttpStatusCode.BadGateway)
-            {
-                RequestMessage = request
-            };
+            //return new HttpResponseMessage(HttpStatusCode.BadGateway)
+            //{
+            //    RequestMessage = request
+            //};
         }
     }
 
