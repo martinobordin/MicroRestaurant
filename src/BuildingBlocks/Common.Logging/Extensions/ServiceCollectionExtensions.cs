@@ -21,7 +21,7 @@ namespace Common.Logging.Extensions
                     .AddHttpClientInstrumentation()
                     .AddAspNetCoreInstrumentation()
                     .AddSqlClientInstrumentation()
-             
+                    .AddMongoDBInstrumentation()
                     
                     //.AddSource(nameof(BasketController))
                     .AddJaegerExporter(options =>
