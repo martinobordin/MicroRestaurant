@@ -15,20 +15,20 @@ builder.Services.AddTransient<LoggingDelegatingHandler>();
 builder.Services.AddHttpClient<ICatalogService, CatalogService>(c =>
     c.BaseAddress = new Uri(builder.Configuration["ApiSettings:CatalogUrl"]!))
     .AddHttpMessageHandler<LoggingDelegatingHandler>()
-    .AddPolicyHandler(GetRetryPolicy())
-    .AddPolicyHandler(GetCircuitBreakerPolicy());
+    .AddPolicyHandler((services, request) => GetRetryPolicy(services.GetRequiredService<ILogger<CatalogService>>()))
+    .AddPolicyHandler((services, request) => GetCircuitBreakerPolicy(services.GetRequiredService<ILogger<CatalogService>>()));
 
 builder.Services.AddHttpClient<IBasketService, BasketService>(c =>
     c.BaseAddress = new Uri(builder.Configuration["ApiSettings:BasketUrl"]!))
     .AddHttpMessageHandler<LoggingDelegatingHandler>()
-    .AddPolicyHandler(GetRetryPolicy())
-    .AddPolicyHandler(GetCircuitBreakerPolicy());
+    .AddPolicyHandler((services, request) => GetRetryPolicy(services.GetRequiredService<ILogger<BasketService>>()))
+    .AddPolicyHandler((services, request) => GetCircuitBreakerPolicy(services.GetRequiredService<ILogger<BasketService>>()));
 
 builder.Services.AddHttpClient<IOrderService, OrderService>(c =>
     c.BaseAddress = new Uri(builder.Configuration["ApiSettings:OrderUrl"]!))
     .AddHttpMessageHandler<LoggingDelegatingHandler>()
-    .AddPolicyHandler(GetRetryPolicy())
-    .AddPolicyHandler(GetCircuitBreakerPolicy());
+    .AddPolicyHandler((services, request) => GetRetryPolicy(services.GetRequiredService<ILogger<OrderService>>()))
+    .AddPolicyHandler((services, request) => GetCircuitBreakerPolicy(services.GetRequiredService<ILogger<OrderService>>()));
 
 
 builder.Services.AddControllers();
@@ -61,7 +61,7 @@ app.MapControllers();
 app.Run();
 
 
-static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy<T>(ILogger<T> logger)
 {
     // In this case will wait for
     //  2 ^ 1 = 2 seconds then
@@ -75,20 +75,32 @@ static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
             .WaitAndRetryAsync(
                 retryCount: 5,
                 sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                onRetry: (exception, retryCount, context) =>
+                onRetry: (result, retryCount, context) =>
                 {
-                    Log.Error($"Retry {retryCount} of {context.PolicyKey} due to: {exception.Exception}.");
+                    logger.LogError("Retry {retryCount} of {context} due to: {exception}.", retryCount, context.PolicyKey, result.Exception);
                 });
 
 }
 
-static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy<T>(ILogger<T> logger)
 {
     return HttpPolicyExtensions
             .HandleTransientHttpError()
             .CircuitBreakerAsync(
                 handledEventsAllowedBeforeBreaking: 2,
                 durationOfBreak: TimeSpan.FromSeconds(30),
+                onBreak: (result, span) =>
+                {
+                    logger.LogError("Circuit is break due to: {exception}", result.Exception);
+                },
+                onReset: () =>
+                {
+                    logger.LogError("Circuit reset");
+                },
+                onHalfOpen: () =>
+                {
+                    logger.LogError("Circuit is Half open");
+                }
             );
 }
 
