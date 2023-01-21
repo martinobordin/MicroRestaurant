@@ -3,7 +3,10 @@ using Basket.Api.Services;
 using Common.Logging;
 using Common.Logging.Extensions;
 using Discount.Grpc.Protos;
+using HealthChecks.UI.Client;
 using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using System.Reflection;
 
@@ -55,6 +58,9 @@ builder.Services.AddTelemetry(opt =>
     opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
 
+builder.Services.AddHealthChecks()
+                    .AddRedis(builder.Configuration.GetConnectionString("Redis")!, "Redis Health", HealthStatus.Degraded);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,5 +73,11 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();

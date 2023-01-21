@@ -1,6 +1,10 @@
 using Catalog.Api.Data;
 using Common.Logging;
 using Common.Logging.Extensions;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using System.Reflection;
 
@@ -28,6 +32,9 @@ builder.Services.AddTelemetry(opt =>
     opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
 
+builder.Services.AddHealthChecks()
+                .AddMongoDb(builder.Configuration.GetConnectionString("MongoDb")!, "MongoDb Health", HealthStatus.Degraded);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,5 +47,11 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();

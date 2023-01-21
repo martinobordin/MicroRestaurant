@@ -2,6 +2,10 @@ using Common.Logging;
 using Common.Logging.Extensions;
 using Discount.Api.Data;
 using Discount.Api.Extensions;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using System.Reflection;
 
@@ -27,6 +31,8 @@ builder.Services.AddTelemetry(opt =>
     opt.JaegerEndpoint = builder.Configuration["JaegerConfiguration:Endpoint"]!;
     opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
+builder.Services.AddHealthChecks()
+                    .AddNpgSql(builder.Configuration.GetConnectionString("PostgreSQL")!, failureStatus: HealthStatus.Degraded);
 
 var app = builder.Build();
 
@@ -40,6 +46,12 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.InitializeDatabase();
 

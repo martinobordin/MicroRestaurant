@@ -1,6 +1,8 @@
 using Common.Logging;
 using Common.Logging.Extensions;
+using HealthChecks.UI.Client;
 using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Order.Api.Extensions;
 using Order.Application;
 using Order.Application.Features.Orders.EventsConsumers;
@@ -51,6 +53,9 @@ builder.Services.AddTelemetry(opt =>
     opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
 
+builder.Services.AddHealthChecks()
+            .AddDbContextCheck<OrderContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,6 +68,12 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.InitializeDatabase<OrderContext>();
 

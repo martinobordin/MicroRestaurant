@@ -1,6 +1,9 @@
 using Common.Logging;
 using Common.Logging.Extensions;
+using HealthChecks.UI.Client;
 using MicroRestaurant.Aggregator.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Polly;
 using Polly.Extensions.Http;
 using Serilog;
@@ -43,6 +46,11 @@ builder.Services.AddTelemetry(opt =>
     opt.ZipkinEndpoint = builder.Configuration["ZipkinConfiguration:Endpoint"]!;
 });
 
+builder.Services.AddHealthChecks()
+              .AddUrlGroup(new Uri($"{builder.Configuration["ApiSettings:CatalogUrl"]!}/swagger/index.html"), "Catalog.API", HealthStatus.Degraded)
+              .AddUrlGroup(new Uri($"{builder.Configuration["ApiSettings:BasketUrl"]!}/swagger/index.html"), "Basket.API", HealthStatus.Degraded)
+              .AddUrlGroup(new Uri($"{builder.Configuration["ApiSettings:OrderUrl"]!}/swagger/index.html"), "Ordering.API", HealthStatus.Degraded);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -57,6 +65,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();
 
