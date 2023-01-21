@@ -6,7 +6,7 @@
     <ProjectGuid>18479cfd-955e-446f-9060-3cb653dbca41</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>order.api</DockerServiceName>
+    <DockerServiceName>webstatus</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

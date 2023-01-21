@@ -189,6 +189,15 @@ services:
       - basket.api
       - order.api
 
+  webstatus:
+    container_name: webstatus
+    image: ${DOCKER_REGISTRY-}webstatus
+    build:
+      context: .
+      dockerfile: src/Monitoring/WebStatus/Dockerfile
+    ports:
+      - "8007:80"
+
 volumes:
 
   jaeger-data:
@@ -197,5 +206,6 @@ volumes:
   pgadmin_data:
   mongo_data:
   postgres_data:
+
 
 

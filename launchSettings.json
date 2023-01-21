@@ -4,8 +4,8 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "microrestaurant.aggregator",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
+      "composeLaunchServiceName": "webstatus",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
         "basket.api": "StartDebugging",
         "basket.db": "StartWithoutDebugging",
@@ -23,7 +23,10 @@
         "kibana": "StartWithoutDebugging",
         "microrestaurant.aggregator": "StartDebugging",
         "mongoclient": "StartWithoutDebugging",
-        "ocelot.apigateway": "StartDebugging"
+        "ocelot.apigateway": "StartDebugging",
+        "jaeger": "StartWithoutDebugging",
+        "webstatus": "StartDebugging",
+        "zipkin": "StartWithoutDebugging"
       }
     }
   }

@@ -3,9 +3,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 builder.Services.AddHealthChecksUI()
               .AddInMemoryStorage();
 
+
+var o = builder.Configuration.GetSection("HealthChecks-UI");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
